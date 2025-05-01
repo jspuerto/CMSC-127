@@ -1,5 +1,5 @@
 """
-ASGI config for Personal_Budget_Tracker project.
+ASGI config for thrifttrails project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Personal_Budget_Tracker.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'thrifttrails.settings')
 
 application = get_asgi_application()

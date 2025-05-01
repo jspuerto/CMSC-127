@@ -1,5 +1,5 @@
 """
-WSGI config for Personal_Budget_Tracker project.
+WSGI config for thrifttrails project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Personal_Budget_Tracker.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'thrifttrails.settings')
 
 application = get_wsgi_application()
