@@ -85,7 +85,9 @@ h2 {
 }
 
 .side-panel h2 {
+  display: flex;
   margin-bottom: 1.5rem;
+  margin-top: 2rem;
 }
 
 .side-panel input {
@@ -103,11 +105,74 @@ h2 {
   background-color: #808080;
   border: none;
   padding: 0.75rem;
+  margin-top: 1rem;
   color: white;
   font-size: 1rem;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+}
+
+.form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-body label {
+  display: block;
+  font-weight: 500;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  color: black;
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  background: #f1f1f1;
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+
+.input-group input[type="number"] {
+  margin-bottom: 0;
+}
+
+.currency-prefix {
+  margin-right: 0.5rem;
+  color: gray;
+}
+
+.image-upload {
+  background-color: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+  padding: 0.75rem;
+  width: 100%;
+  color: #888;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  margin-top: 0;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  color: #000;
+  box-shadow: none;
+}
+
+.close-btn:hover {
+  background-color: white;
+  box-shadow: none; 
 }
 
 .submit-btn:hover {
