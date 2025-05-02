@@ -160,6 +160,9 @@ table td {
   right: 1.5rem;
   cursor: pointer;
 }
+.close-btn:hover {
+  color: #808080;
+}
 
 @keyframes slideIn {
   from {

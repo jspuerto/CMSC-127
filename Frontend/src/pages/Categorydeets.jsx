@@ -59,13 +59,9 @@ const CategoryDetail = () => {
           </div>
         </div>
 
-        {/* Expenses */}
         <div className="expenses-section">
           <div className="expenses-header">
             <h3>Expenses</h3>
-          </div>
-
-          <div className="expense-controls">
             <input type="text" placeholder="Search" className="search-input" />
             <button className="add-button" onClick={handleAddClick}>
               <span className="plus-icon">＋</span> Add
@@ -93,7 +89,6 @@ const CategoryDetail = () => {
         </div>
       </div>
 
-      {/* Drawer */}
       <div className={`drawer ${showDrawer ? "open" : ""}`}>
         <div className="drawer-header">
           <h2>Add item</h2>
@@ -111,8 +106,11 @@ const CategoryDetail = () => {
           />
           <label>Description</label>
           <input type="text" placeholder="Description" />
-          <label>Expense_v2</label>
-          <input type="number" placeholder="$" />
+          <label>Expense</label>
+          <div className="input-group">
+            <span className="currency-prefix">$</span>
+            <input type="number" placeholder="0.00" />
+          </div>
           <label>Date</label>
           <input type="date" />
           <div className="drawer-buttons">
