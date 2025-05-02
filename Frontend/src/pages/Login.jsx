@@ -5,12 +5,14 @@ import { FaRegEyeSlash } from 'react-icons/fa';
 import { IoEyeSharp } from 'react-icons/io5';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setError('');
 
     fetch('http://localhost:8000/api/login/', {
       method: 'POST',
@@ -18,13 +20,25 @@ const Login = () => {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then((res) => {
+        if (!res.ok) {
+          return res.json().then(data => {
+            throw new Error(data.error || 'Login failed');
+          });
+        }
+        return res.json();
       })
-      .catch((err) => console.error('Login error:', err));
+      .then((data) => {
+        console.log('Login successful:', data);
+        // Redirect to home page or dashboard after successful login
+        window.location.href = '/';
+      })
+      .catch((err) => {
+        console.error('Login error:', err);
+        setError(err.message || 'Invalid credentials. Please try again.');
+      });
   };
 
   return (
@@ -38,13 +52,14 @@ const Login = () => {
       <div className="right-panel">
         <form className="login-form" onSubmit={handleSubmit}>
           <h1>Login</h1>
+          {error && <div className="error-message">{error}</div>}
           <input
-            id="username"
+            id="email"
             type="text"
-            placeholder="Username"
-            aria-label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Email"
+            aria-label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             required
           />
           <div className="password-input-container">

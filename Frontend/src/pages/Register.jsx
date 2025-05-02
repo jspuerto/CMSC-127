@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './register.css';
 import logoImage from '../assets/thrifttrail.png';
 import { FaRegEyeSlash } from 'react-icons/fa';
 import { IoEyeSharp } from 'react-icons/io5';
 
 const Signup = () => {
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password1, setPassword1] = useState('');
@@ -31,6 +33,8 @@ const Signup = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        alert('Registration successful! Please login with your credentials.');
+        navigate('/login');
       })
       .catch((err) => console.error('Signup error:', err));
   };
