@@ -67,7 +67,7 @@ function BudgetTab() {
 
         <div className="budget-header">
           <h3>Budget Limits</h3>
-          <button className="add-category-btn" onClick={handleAddCategory}>
+          <button className="add-entry-btn" onClick={handleAddCategory}>
             + Add Entry
           </button>
         </div>

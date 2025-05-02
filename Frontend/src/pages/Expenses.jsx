@@ -59,7 +59,7 @@ function App() {
           <option value="date">Month</option>
           <option value="category">Category</option>
         </select>
-        <button onClick={handleAddExpense}>+ Add Expense</button>
+        <button onClick={handleAddExpense} className="add-expense-btn" >+ Add Expense</button>
       </div>
 
       <table>
