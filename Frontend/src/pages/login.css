@@ -1,0 +1,244 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    background: #D9D9D9 url('../assets/login-signup-bg.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Inter', sans-serif;
+    color: #5B5B5B;
+    gap: 6rem;
+  }
+  
+  .left-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 6rem;
+  }
+  
+  .branding {
+    text-align: center;
+  }
+  
+  .branding h1 {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #111;
+    margin: 0;
+  }
+  
+  .branding p {
+    font-size: 1.2rem;
+    color: #333;
+    font-weight: bold;
+    margin: 10px 0;
+  }
+  
+  .logo-image {
+    margin-top: 1rem;
+    max-width: 35rem;
+  }
+  
+  .right-panel {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #D9D9D9;
+    height: 100%;
+    border-radius: 20px;
+  }
+  
+  .login-form {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .login-form h1 {
+    font-weight: 800;
+    font-size: 3rem;
+    margin: auto;
+    margin-bottom: 2rem;
+  }
+  
+  .login-form input {
+    padding: 15px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .options {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #5B5B5B;
+  }
+  
+  .options a {
+    color: #555;
+    text-decoration: none;
+  }
+  
+  input[type="checkbox"] {
+    border-radius: 50px;
+  }
+  
+  button {
+    background-color: #808080;
+    color: white;
+    font-weight: bold;
+    width: 50%;
+    margin: auto;
+    margin-top: 4rem;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
+  .signup-text {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #505050;
+  }
+  
+  .signup-text a {
+    color: #007BFF;
+    text-decoration: none;
+  }
+
+  .password-input-container {
+    position: relative;
+  }
+  
+  .password-input {
+    width: 100%;
+    padding-right: 3rem;
+  }
+  
+  .password-toggle-icon {
+    margin-top: 2px;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+    cursor: pointer;
+    font-size: 1.2rem;
+  }
+  
+  @media (max-width: 1024px) {
+    .login-container {
+        gap: 0;
+    }
+
+    .left-panel {
+      padding-bottom: 4rem;
+      margin: 0;
+    }
+  
+    .right-panel {
+      margin-bottom: 6rem;
+      height: 100%;
+    }
+  
+    .branding h1 {
+      font-size: 3rem;
+    }
+  
+    .logo-image {
+      max-width: 25rem;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .login-container {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    .left-panel {
+      margin: 0;
+      margin-top: 14rem;
+      padding: 0;
+    }
+  
+    .right-panel {
+      margin: 2rem;
+      width: 90%;
+      height: auto;
+    }
+  
+    .login-form {
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+  
+    .branding h1 {
+      font-size: 2.5rem;
+    }
+  
+    .logo-image {
+      max-width: 18rem;
+    }
+  
+    button {
+      width: 100%;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .login-container {
+        gap: 0;
+    }
+
+    .left-panel {
+      margin: 0;
+      padding: 0;
+    }
+
+    .logo-image {
+        margin-top: 6rem;
+    }
+
+    button {
+        width: 50%;
+        margin-top: 0;
+    }
+
+    .branding h1 {
+      font-size: 2rem;
+    }
+  
+    .branding p {
+      font-size: 1rem;
+    }
+  
+    .logo-image {
+      max-width: 14rem;
+    }
+  
+    .right-panel {
+      margin: 1rem;
+    }
+  
+    .login-form {
+      gap: 1rem;
+      padding: 1rem;
+    }
+  }
+  
