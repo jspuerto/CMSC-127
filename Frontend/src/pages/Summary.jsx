@@ -81,75 +81,77 @@ function App() {
   return (
     <div className="app">
       <Navbar /> 
-      <h1>Summary of Expenses</h1>
-      <input
-        type="month"
-        value={month}
-        onChange={(e) => setMonth(e.target.value)}
-        className="month-picker"
-      />
-      <div className="summary-cards">
-        {summaryData.map((item, i) => (
-          <div key={i} className="card">
-            <div className="label">{item.label}</div>
-            <div className="value">{item.value}</div>
+      <div className="summary-container">
+        <h1>Summary of Expenses</h1>
+        <input
+          type="month"
+          value={month}
+          onChange={(e) => setMonth(e.target.value)}
+          className="month-picker"
+        />
+        <div className="summary-cards">
+          {summaryData.map((item, i) => (
+            <div key={i} className="card">
+              <div className="label">{item.label}</div>
+              <div className="value">{item.value}</div>
+            </div>
+          ))}
+        </div>
+        <div className="charts">
+          <div className="chart-box">
+            <h2>YTD Savings Summary</h2>
+            <LineChart width={400} height={250} data={lineData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line type="monotone" dataKey="Budget" stroke="#8884d8" />
+              <Line type="monotone" dataKey="Expenses" stroke="#82ca9d" />
+              <Line type="monotone" dataKey="Savings" stroke="#ff6384" />
+            </LineChart>
           </div>
-        ))}
-      </div>
-      <div className="charts">
-        <div className="chart-box">
-          <h2>YTD Savings Summary</h2>
-          <LineChart width={400} height={250} data={lineData}>
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Line type="monotone" dataKey="Budget" stroke="#8884d8" />
-            <Line type="monotone" dataKey="Expenses" stroke="#82ca9d" />
-            <Line type="monotone" dataKey="Savings" stroke="#ff6384" />
-          </LineChart>
-        </div>
 
-        <div className="chart-box">
-          <h2>Spending Breakdown</h2>
-          <PieChart width={400} height={250}>
-            <Pie
-              data={pieData}
-              dataKey="value"
-              nameKey="name"
-              cx="50%"
-              cy="50%"
-              outerRadius={80}
-            >
-              {pieData.map((entry, i) => (
-                <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-          </PieChart>
+          <div className="chart-box">
+            <h2>Spending Breakdown</h2>
+            <PieChart width={400} height={250}>
+              <Pie
+                data={pieData}
+                dataKey="value"
+                nameKey="name"
+                cx="50%"
+                cy="50%"
+                outerRadius={80}
+              >
+                {pieData.map((entry, i) => (
+                  <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                ))}
+              </Pie>
+              <Tooltip />
+            </PieChart>
+          </div>
         </div>
-      </div>
-      <div className="table-section">
-        <h2>Costs this Year</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Month</th>
-              <th>Expenses</th>
-              <th>Savings</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tableData.map((row, i) => (
-              <tr key={i}>
-                <td>{row.month}</td>
-                <td>{row.expenses}</td>
-                <td>{row.savings}</td>
+        <div className="table-section">
+          <h2>Costs this Year</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Expenses</th>
+                <th>Savings</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tableData.map((row, i) => (
+                <tr key={i}>
+                  <td>{row.month}</td>
+                  <td>{row.expenses}</td>
+                  <td>{row.savings}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );

@@ -13,18 +13,25 @@ body {
 
 .app {
   width: 100%;
-  max-width: 1200px;
+  max-width: 100vw;
   margin: auto;
-  padding: 1rem;
 }
 
 h1 {
   font-size: 2rem;
-  margin-bottom: 1.5rem;
+  margin: 1rem 1.5rem 1rem 0.5rem;
+}
+
+.summary-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
 }
 
 .month-picker {
-  width: 100%;
+  width: 90%;
   padding: 10px;
   margin-bottom: 20px;
   border-radius: 5px;
@@ -62,6 +69,7 @@ h1 {
   flex-wrap: wrap;
   gap: 2rem;
   margin-bottom: 2rem;
+  width: 100%;
 }
 
 .chart-box {
@@ -79,6 +87,8 @@ h1 {
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
+  width: 100%;
+  max-width: 100vw;
 }
 
 table {
