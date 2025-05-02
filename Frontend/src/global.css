@@ -7,11 +7,11 @@
 
 /* Set a global font and background color */
 body {
-  font-family: Arial, sans-serif;
-  background: #e4e4e4 url('../assets/login-signup-bg.png') no-repeat center center fixed;
-  background-size: cover;
+  font-family: 'Inter', sans-serif;
+  background-color: #f4f4f9;
   color: #333;
   line-height: 1.6;
+  padding-top: 4rem;
 }
 
 /* Add some global styles for links */
