@@ -22,18 +22,28 @@ function BudgetTab() {
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [newLimit, setNewLimit] = useState("");
+  const [newImage, setNewImage] = useState(null);
+
 
   const handleAddCategory = () => setShowForm(true);
 
+  
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    if (newCategory && newLimit) {
-      setBudgetLimits([
-        ...budgetLimits,
-        { category: newCategory, limit: Number(newLimit) },
-      ]);
+
+    if (newCategory && newLimit && newImage) {
+      const newEntry = {
+        category: newCategory,
+        limit: Number(newLimit),
+        image: URL.createObjectURL(newImage), // for local preview/display only
+      };
+
+      setBudgetLimits([...budgetLimits, newEntry]);
+
+      // Reset form fields
       setNewCategory("");
       setNewLimit("");
+      setNewImage(null);
       setShowForm(false);
     }
   };
@@ -80,7 +90,7 @@ function BudgetTab() {
             &times;
           </button>
           <h2>Add Category</h2>
-          <form onSubmit={handleFormSubmit}>
+          <form onSubmit={handleFormSubmit} encType="multipart/form-data">
             <input
               type="text"
               placeholder="Category"
@@ -93,6 +103,12 @@ function BudgetTab() {
               placeholder="Monthly Limit"
               value={newLimit}
               onChange={(e) => setNewLimit(e.target.value)}
+              required
+            />
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setNewImage(e.target.files[0])}
               required
             />
             <button type="submit" className="submit-btn">
