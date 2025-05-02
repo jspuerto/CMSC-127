@@ -43,26 +43,28 @@ function App() {
       <Navbar />
       <div className="header">
         <h1>Expenses</h1>
-        <input type="text" className="search-input" placeholder="Search..." />
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search..."
+          // You can add search logic later
+        />
         <select className="sort-select">
-          <option value="">Sort by</option>
-          <option value="amount">Amount</option>
-          <option value="date">Date</option>
+          <option value="">Filter</option>
+          <option value="amount">Year</option>
+          <option value="date">Month</option>
+          <option value="category">Category</option>
         </select>
-        <button className="add-expense-btn" onClick={handleAddExpense}>
-          + Add Expense
-        </button>
+        <button onClick={handleAddExpense}>+ Add Expense</button>
       </div>
 
       <table>
         <thead>
           <tr>
-            <th>Title</th>
-            <th>Amount</th>
-            <th>Date</th>
-            <th>Type</th>
             <th>Category</th>
             <th>Description</th>
+            <th>Expense</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
@@ -106,7 +108,6 @@ function App() {
               }
               required
             />
-            
             <input
               type="date"
               value={newExpense.date}
@@ -115,7 +116,6 @@ function App() {
               }
               required
             />
-            
             <button type="submit">Add</button>
           </form>
         </div>

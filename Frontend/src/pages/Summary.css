@@ -4,67 +4,79 @@ body {
   font-family: sans-serif;
   margin: 0;
   padding: 20px;
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
 }
 
 .app {
+  width: 100%;
   max-width: 1200px;
   margin: auto;
+  padding: 1rem;
 }
 
 h1 {
-  font-size: 2em;
-  margin-bottom: 1em;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .month-picker {
-  padding: 8px;
+  width: 100%;
+  padding: 10px;
   margin-bottom: 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  border: none;
 }
 
 .summary-cards {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
-  margin-bottom: 30px;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .card {
   background: white;
   color: black;
-  padding: 15px;
+  padding: 1rem;
   border-radius: 8px;
-  flex: 1 1 200px;
+  flex: 1 1 240px;
   min-width: 200px;
 }
 
 .label {
-  font-size: 0.9em;
+  font-size: 0.9rem;
 }
 
 .value {
-  font-size: 1.5em;
+  font-size: 1.5rem;
   font-weight: bold;
 }
 
 .charts {
   display: flex;
   flex-wrap: wrap;
-  gap: 30px;
-  margin-bottom: 30px;
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
 .chart-box {
   background: white;
   color: black;
-  padding: 15px;
+  padding: 1rem;
   border-radius: 8px;
   flex: 1 1 400px;
+  min-width: 280px;
 }
 
 .table-section {
   background: white;
   color: black;
-  padding: 15px;
+  padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
 }
@@ -72,11 +84,27 @@ h1 {
 table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 10px;
+  margin-top: 1rem;
 }
 
 th, td {
-  padding: 8px;
+  padding: 0.75rem;
   border-bottom: 1px solid #ccc;
   text-align: left;
+}
+
+@media (max-width: 768px) {
+  .summary-cards,
+  .charts {
+    flex-direction: column;
+  }
+
+  .card,
+  .chart-box {
+    width: 100%;
+  }
+
+  .month-picker {
+    width: 100%;
+  }
 }
