@@ -1,6 +1,5 @@
-// src/components/Navbar.jsx
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import brand from '../assets/thrifttrail.png';
 import "./navbar.css";
 import {
@@ -12,18 +11,46 @@ import {
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const [activeNav, setActiveNav] = useState("review");
+  const location = useLocation(); 
+  const [activeNav, setActiveNav] = useState("");
+
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/summary":
+        setActiveNav("review");
+        break;
+      case "/budget":
+        setActiveNav("budget");
+        break;
+      case "/expenses":
+        setActiveNav("expenses");
+        break;
+      case "/categories":
+        setActiveNav("categories");
+        break;
+      default:
+        setActiveNav("");
+    }
+  }, [location.pathname]);
 
   const handleNavClick = (icon) => {
-    setActiveNav(icon); // Set the active button
-    if (icon === "review") {
-      navigate("/summary");
-    } else if (icon === "budget") {
-      navigate("/budget");
-    } else if (icon === "expenses") {
-      navigate("/expenses");
-    } else if (icon === "categories") {
-      navigate("/categories");
+    if (activeNav !== icon) {
+      navigate(getRoute(icon));
+    }
+  };
+
+  const getRoute = (icon) => {
+    switch (icon) {
+      case "review":
+        return "/summary";
+      case "budget":
+        return "/budget";
+      case "expenses":
+        return "/expenses";
+      case "categories":
+        return "/categories";
+      default:
+        return "/";
     }
   };
 

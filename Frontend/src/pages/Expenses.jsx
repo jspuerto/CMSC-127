@@ -19,6 +19,10 @@ function App() {
   ]);
 
   const [showForm, setShowForm] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
+  const [newLimit, setNewLimit] = useState("");
+  const [newDate, setNewDate] = useState("");
+  const [newDescription, setNewDescription] = useState("");
   const [newExpense, setNewExpense] = useState({
     category: "",
     description: "",
@@ -32,7 +36,7 @@ function App() {
     e.preventDefault();
     setExpenses([
       ...expenses,
-      { ...newExpense, amount: Number(newExpense.amount) },
+      { ...newExpense, amount: Number(newExpense.amount), date: newDate, description: newDescription },
     ]);
     setNewExpense({ category: "", description: "", amount: "", date: "" });
     setShowForm(false);
@@ -81,42 +85,47 @@ function App() {
 
       {showForm && (
         <div className="side-panel">
-          <button onClick={() => setShowForm(false)}>&times;</button>
-          <form onSubmit={handleFormSubmit}>
+          <button className="close-btn" onClick={() => setShowForm(false)}>
+            &times;
+          </button>
+          <h2>Entry</h2>
+          <form onSubmit={handleFormSubmit} encType="multipart/form-data">
             <input
-              placeholder="Category"
-              value={newExpense.category}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, category: e.target.value })
-              }
-              required
-            />
-            <input
-              placeholder="Description"
-              value={newExpense.description}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, description: e.target.value })
-              }
+              type="text"
+              placeholder="Title"
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
               required
             />
             <input
               type="number"
               placeholder="Amount"
-              value={newExpense.amount}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, amount: e.target.value })
-              }
+              value={newLimit}
+              onChange={(e) => setNewLimit(e.target.value)}
               required
             />
             <input
               type="date"
-              value={newExpense.date}
-              onChange={(e) =>
-                setNewExpense({ ...newExpense, date: e.target.value })
-              }
+              onChange={(e) => setNewDate(e.target.value)}
               required
             />
-            <button type="submit">Add</button>
+            <select
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+              required
+            >
+              <option value="">Select Category</option>
+              <option value="income">Income</option>
+              <option value="expense">Expense</option>
+            </select>
+            <textarea
+              placeholder="Description"
+              onChange={(e) => setNewDescription(e.target.value)}
+              value={newDescription}
+            ></textarea>
+            <button type="submit" className="submit-btn">
+              Add Entry
+            </button>
           </form>
         </div>
       )}

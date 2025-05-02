@@ -1,4 +1,3 @@
-
 html, body {
   height: 100%;
   margin: 0;
@@ -11,18 +10,16 @@ html, body {
   height: 100%;
 }
 
-/* Base container */
 .container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   padding: 1rem 2rem;
+  padding-top: 0;
   max-width: 100%;
   box-sizing: border-box;
 }
 
-
-/* Header row with flex layout */
 .header {
   display: flex;
   flex-wrap: wrap;
@@ -37,15 +34,12 @@ html, body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-
-/* Title styling */
 .header h1 {
   flex: 1 1 100%;
   margin: 0;
   font-size: 2rem;
 }
 
-/* Inputs and button styling */
 .search-input,
 .sort-select,
 .header button {
@@ -56,16 +50,14 @@ html, body {
   border-radius: 6px;
 }
 
-/* Make them align side-by-side */
 .search-input,
 .sort-select {
   flex: 1 1 auto;
   min-width: 150px;
 }
 
-/* Button styling */
 .header button {
-  background-color: #4caf50;
+  background-color: #808080;
   color: white;
   border: none;
   cursor: pointer;
@@ -74,10 +66,9 @@ html, body {
 }
 
 .header button:hover {
-  background-color: #45a049;
+  background-color: #555;
 }
 
-/* Table styling */
 table {
   width: 100%;
   background-color: white;
@@ -87,7 +78,6 @@ table {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
-
 table th,
 table td {
   text-align: left;
@@ -95,55 +85,97 @@ table td {
   border-bottom: 1px solid #ccc;
 }
 
-/* Side panel form */
 .side-panel {
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 300px;
-  height: 100%;
-  background: #f9f9f9;
-  border-left: 1px solid #ccc;
-  padding: 1rem;
-  box-shadow: -2px 0 6px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
+  position: fixed; 
+  right: 0; 
+  height: 100%; 
+  background-color: white;
+  box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+  padding: 2rem 1.5rem;
+  z-index: 999;
+  overflow-y: auto; 
+  border-radius: 10px; 
+  animation: slideIn 0.5s ease-out;
+  color: #A7A7A7;
 }
 
-.side-panel button {
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  float: right;
-  cursor: pointer;
+.side-panel h2 {
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: #000;
 }
 
-.side-panel form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-top: 2rem;
+.side-panel input {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
 }
 
 .side-panel input,
-.side-panel button[type="submit"] {
-  padding: 0.5rem;
+.side-panel select,
+.side-panel textarea {
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  padding: 0.75rem;
   font-size: 1rem;
-  border-radius: 6px;
+  color: #A7A7A7;
+  width: 100%;
+  margin-bottom: 1rem;
+  box-sizing: border-box;
 }
 
-.side-panel button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
+.side-panel textarea {
+  color: #000; 
+}
+
+.submit-btn {
+  width: 100%;
+  background-color: #808080;
   border: none;
+  padding: 0.75rem;
+  color: white;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+  background-color: #555;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
   cursor: pointer;
 }
 
-.side-panel button[type="submit"]:hover {
-  background-color: #45a049;
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Responsive tweaks */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .side-panel {
+    right: 10%;
+    width: 80%; 
+    padding: 1.5rem;
+  }
+
   .header {
     flex-direction: column;
     align-items: stretch;
@@ -154,18 +186,47 @@ table td {
     text-align: center;
   }
 
-  .search-input,
-  .sort-select,
-  .header button {
-    width: 100%;
+  table th,
+  table td {
+    font-size: 0.95rem; 
   }
+}
 
-  table th, table td {
-    font-size: 0.9rem;
-  }
-
+@media (max-width: 768px) {
   .side-panel {
+    right: 0; 
     width: 100%;
+    padding: 1rem;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  table th,
+  table td {
+    font-size: 0.9rem; 
+  }
+}
+
+@media (max-width: 480px) {
+  .side-panel {
+    padding: 0.5rem; 
+  }
+
+  .header h1 {
+    font-size: 1.2rem; 
+  }
+
+  table th,
+  table td {
+    font-size: 0.85rem; 
   }
 }
 

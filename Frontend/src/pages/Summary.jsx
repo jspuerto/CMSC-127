@@ -100,35 +100,65 @@ function App() {
         <div className="charts">
           <div className="chart-box">
             <h2>YTD Savings Summary</h2>
-            <LineChart width={400} height={250} data={lineData}>
+            <LineChart width={500} height={260} data={lineData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
               <Legend />
-              <Line type="monotone" dataKey="Budget" stroke="#8884d8" />
-              <Line type="monotone" dataKey="Expenses" stroke="#82ca9d" />
-              <Line type="monotone" dataKey="Savings" stroke="#ff6384" />
+              <Line
+                type="monotone"
+                dataKey="Budget"
+                stroke="#8884d8"
+                animationDuration={1500} // Animation duration in milliseconds
+              />
+              <Line
+                type="monotone"
+                dataKey="Expenses"
+                stroke="#82ca9d"
+                animationDuration={1500}
+              />
+              <Line
+                type="monotone"
+                dataKey="Savings"
+                stroke="#ff6384"
+                animationDuration={1500}
+              />
             </LineChart>
           </div>
 
           <div className="chart-box">
             <h2>Spending Breakdown</h2>
-            <PieChart width={400} height={250}>
-              <Pie
-                data={pieData}
-                dataKey="value"
-                nameKey="name"
-                cx="50%"
-                cy="50%"
-                outerRadius={80}
-              >
+            <div className="piechart-container">
+              <PieChart width={300} height={250}>
+                <Pie
+                  data={pieData}
+                  dataKey="value"
+                  nameKey="name"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={80}
+                  isAnimationActive={true} // Enable animation
+                  animationDuration={1500} // Animation duration in milliseconds
+                >
+                  {pieData.map((entry, i) => (
+                    <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+              <div className="piechart-legend">
                 {pieData.map((entry, i) => (
-                  <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
+                  <div key={i} className="legend-item">
+                    <span
+                      className="legend-color"
+                      style={{ backgroundColor: COLORS[i % COLORS.length] }}
+                    ></span>
+                    {entry.name} ${entry.value.toLocaleString()}
+                  </div>
                 ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
+              </div>
+            </div>
           </div>
         </div>
         <div className="table-section">

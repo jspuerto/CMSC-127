@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
   background-color: #121212;
   color: white;
@@ -19,7 +21,7 @@ body {
 
 h1 {
   font-size: 2rem;
-  margin: 1rem 1.5rem 1rem 0.5rem;
+  margin: 1rem 1.5rem 0 0.5rem;
 }
 
 .summary-container {
@@ -31,6 +33,7 @@ h1 {
 }
 
 .month-picker {
+  font-family: 'Inter', sans-serif;
   width: 90%;
   padding: 10px;
   margin-bottom: 20px;
@@ -77,8 +80,31 @@ h1 {
   color: black;
   padding: 1rem;
   border-radius: 8px;
-  flex: 1 1 400px;
-  min-width: 280px;
+  flex: 1 1 600px;
+  width: 100%;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  gap: 2rem; 
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 1s ease-out forwards;
+}
+
+.chart-box h2 {
+  font-family: "Cabin Sketch", sans-serif;
+  font-size: 4rem;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .table-section {
@@ -101,6 +127,54 @@ th, td {
   padding: 0.75rem;
   border-bottom: 1px solid #ccc;
   text-align: left;
+}
+
+.piechart-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem; 
+  padding-bottom: 2rem;
+}
+
+.piechart-legend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; 
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
+}
+
+.piechart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 1rem;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.legend-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 0.5rem;
 }
 
 @media (max-width: 768px) {

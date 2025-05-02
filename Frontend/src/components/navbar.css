@@ -1,5 +1,11 @@
-/* src/components/Navbar.css */
+@import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
 .navbar {
+  position: fixed;
+  top: 0; 
+  left: 0; 
+  width: 100%;
+  z-index: 1000; 
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -7,6 +13,7 @@
   padding: 0.8rem 1.5rem;
   color: white;
   padding-left: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .brand {
@@ -15,7 +22,8 @@
 }
 
 .navbar-title {
-  font-weight: bold;
+  font-family: "Cabin Sketch", sans-serif;
+  font-weight: 700;
   font-size: 1.2rem;
 }
 

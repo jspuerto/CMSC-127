@@ -18,11 +18,12 @@ const initialLimits = [
 function BudgetTab() {
   const [budgetLimits, setBudgetLimits] = useState(initialLimits);
   const [monthlyBudget] = useState(2750);
-
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [newLimit, setNewLimit] = useState("");
-  const [newImage, setNewImage] = useState(null);
+  const [newDate, setNewDate] = useState("");
+  const [newType, setNewType] = useState("");
+  const [newDescription, setNewDescription] = useState("");
 
 
   const handleAddCategory = () => setShowForm(true);
@@ -31,11 +32,14 @@ function BudgetTab() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
 
-    if (newCategory && newLimit && newImage) {
+    if (newCategory && newLimit && newDate && newType) {
       const newEntry = {
+        title: newCategory,
+        amount: Number(newLimit),
+        date: newDate,
+        type: newType,
         category: newCategory,
-        limit: Number(newLimit),
-        image: URL.createObjectURL(newImage), // for local preview/display only
+        description: newDescription,
       };
 
       setBudgetLimits([...budgetLimits, newEntry]);
@@ -43,7 +47,9 @@ function BudgetTab() {
       // Reset form fields
       setNewCategory("");
       setNewLimit("");
-      setNewImage(null);
+      setNewDate("");
+      setNewType("");
+      setNewDescription("");
       setShowForm(false);
     }
   };
@@ -51,6 +57,7 @@ function BudgetTab() {
   return (
     <div className="budget-tab">
       <Navbar />
+      <div className="budget-container">
         <h2>Budget and Spending Tracker</h2>
 
         <div className="monthly-budget-box">
@@ -61,7 +68,7 @@ function BudgetTab() {
         <div className="budget-header">
           <h3>Budget Limits</h3>
           <button className="add-category-btn" onClick={handleAddCategory}>
-            + Add Category
+            + Add Entry
           </button>
         </div>
 
@@ -83,7 +90,6 @@ function BudgetTab() {
             ))}
           </tbody>
         </table>
-
         {showForm && (
           <div className="side-panel">
             <button className="close-btn" onClick={() => setShowForm(false)}>
@@ -106,17 +112,17 @@ function BudgetTab() {
                 required
               />
               <input
-                type="file"
-                accept="image/*"
-                onChange={(e) => setNewImage(e.target.files[0])}
+                type="date"
+                placeholder="Date"
+                value={newDate}
+                onChange={(e) => setNewDate(e.target.value)}
                 required
               />
-              <button type="submit" className="submit-btn">
-                Submit
-              </button>
+              <button type="submit" className="submit-btn">Submit</button>
             </form>
           </div>
         )}
+      </div>
     </div>
   );
 }

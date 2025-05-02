@@ -31,7 +31,7 @@ const Categories = () => {
       <div className="categories-month">
         November 2022
         <div>
-          <button>📆 Select Month</button>
+          <button onClick={() => navigate("/summary")}>Select Month</button>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ const Categories = () => {
         <h2 className="categories-title">Expenses for the Month</h2>
 
         <div className="categories-search">
-          <input type="text" placeholder="🔍 Search" />
+          <input type="text" placeholder="Search" />
         </div>
 
         <div className="categories-grid">
