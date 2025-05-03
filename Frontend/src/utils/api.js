@@ -85,6 +85,9 @@ export const budgetApi = {
 export const entriesApi = {
   // Get all entries
   getEntries: () => api.get('/entries/'),
+
+  // Get entries by category
+  getEntriesByCategory: (category) => api.get(`/entries/?category=${encodeURIComponent(category)}`),
   
   // Create a new entry
   createEntry: (data) => api.post('/entries/', data),

@@ -66,7 +66,12 @@ function App() {
       { label: "Monthly Expenses", value: `$${totalExpenses.toFixed(2)}` },
       { label: "Monthly Income", value: `$${totalIncome.toFixed(2)}` },
       { label: "Monthly Savings", value: `$${savings.toFixed(2)}` },
-      { label: "Savings Rate", value: `${((savings / totalIncome) * 100).toFixed(1)}%` },
+      { 
+        label: "Savings Rate", 
+        value: totalIncome === 0 
+          ? '0%' 
+          : `${((savings / totalIncome) * 100).toFixed(1)}%` 
+      },
     ]);
 
     // Process pie chart data (expenses by category)
