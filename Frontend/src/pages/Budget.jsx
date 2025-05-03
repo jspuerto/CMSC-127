@@ -12,6 +12,7 @@ function BudgetTab() {
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categoryToUpdate, setCategoryToUpdate] = useState(null); // Add state to store the category to be updated
 
   useEffect(() => {
     fetchBudgetCategories();
@@ -39,6 +40,7 @@ function BudgetTab() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+
     if (newCategory && newLimit) {
       try {
         const formData = {
@@ -46,18 +48,32 @@ function BudgetTab() {
           limit: parseFloat(newLimit),
           image: newImage,
         };
-        await budgetApi.createCategory(formData);
+
+        if (categoryToUpdate) {
+          // If updating, just update the existing category
+          await budgetApi.updateCategory(categoryToUpdate.id, formData);
+          setCategoryToUpdate(null); // Clear the category to update
+        } else {
+          // If adding a new category, create a new one
+          await budgetApi.createCategory(formData);
+        }
+
+        // Refresh categories
         await fetchBudgetCategories();
+
+        // Reset the form
         setNewCategory("");
         setNewLimit("");
         setNewImage(null);
         setShowForm(false);
       } catch (err) {
-        setError("Failed to create new category");
+        setError("Failed to save category");
         console.error(err);
       }
     }
   };
+
+
 
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -66,6 +82,7 @@ function BudgetTab() {
   };
 
   const handleUpdate = (item) => {
+    setCategoryToUpdate(item); // Store the category to update
     setNewCategory(item.category);
     setNewLimit(item.limit);
     setShowForm(true);
@@ -103,7 +120,6 @@ function BudgetTab() {
     <div className="budget-tab">
       <Navbar />
       <div className="budget-container">
-
         <div className="monthly-budget-box">
           <p>Monthly Budget Allowance</p>
           <h1>${monthlyBudget.toLocaleString()}</h1>
