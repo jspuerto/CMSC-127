@@ -34,21 +34,23 @@ h2 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 1rem;
-  width: 20%;
+  margin-bottom: 0rem;
+  width: 100%;
+  font-size: 1.2rem
 }
 
 .add-entry-btn {
   background-color: #808080;
   color: white;
   border: none;
-  padding: 0.5rem 1rem;
+  padding: 0.3rem 0.8rem; 
   margin: 0;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size: 1.2rem; 
+  width: auto; 
 }
-
 .add-entry-btn:hover {
   background-color: #555;
 }
@@ -60,14 +62,22 @@ h2 {
   background: white;
   border-radius: 8px;
   overflow: hidden;
+  table-layout: auto;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .budget-table th,
 .budget-table td {
   border: 1px solid #ccc;
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 0.8rem;
   text-align: left;
+}
+
+.budget-table th:last-child,
+.budget-table td:last-child {
+  width: auto; /* Let the actions column width adjust based on content */
+  padding: 0.5rem; /* Optional: adjust padding for better alignment */
+  text-align: center;
 }
 
 .side-panel {
@@ -178,6 +188,34 @@ h2 {
 .submit-btn:hover {
   background-color: #555;
 }
+
+.action-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn {
+  padding: 5px 8px; /* Reduced padding for smaller buttons */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem; /* Smaller font for more compact buttons */
+}
+
+.action-btn.update {
+  background-color: #555;
+  color: white;
+  width: auto; /* Let button width adjust based on content */
+}
+
+.action-btn.delete {
+  background-color: #555;
+  color: white;
+  width: auto; /* Let button width adjust based on content */
+}
+
 
 @keyframes slideIn {
   from {
