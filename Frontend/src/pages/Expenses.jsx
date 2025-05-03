@@ -45,13 +45,13 @@ function App() {
   return (
     <div className="container">
       <Navbar />
+      <h1>Expenses by Category</h1>
       <div className="header">
-        <h1>Expenses</h1>
         <input
           type="text"
           className="search-input"
           placeholder="Search..."
-          // You can add search logic later
+          style={{ marginLeft: "0"}}
         />
         <select className="sort-select">
           <option value="">Filter</option>
@@ -65,19 +65,23 @@ function App() {
       <table>
         <thead>
           <tr>
+            <th>Title</th>
+            <th>Amount</th>
+            <th>Date</th>
+            <th>Type</th>
             <th>Category</th>
             <th>Description</th>
-            <th>Expense</th>
-            <th>Date</th>
           </tr>
         </thead>
         <tbody>
           {expenses.map((e, i) => (
             <tr key={i}>
-              <td>{e.category}</td>
-              <td>{e.description}</td>
+              <td>{e.title || "N/A"}</td>
               <td>${e.amount.toFixed(2)}</td>
               <td>{e.date}</td>
+              <td>{e.type || "N/A"}</td>
+              <td>{e.category}</td>
+              <td>{e.description}</td>
             </tr>
           ))}
         </tbody>
