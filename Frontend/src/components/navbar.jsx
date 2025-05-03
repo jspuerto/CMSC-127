@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from '../assets/logo.png';
+import logo from "../assets/logo.png";
 import "./navbar.css";
 import {
   FaTachometerAlt,
@@ -11,8 +11,19 @@ import {
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const location = useLocation(); 
+  const location = useLocation();
   const [activeNav, setActiveNav] = useState("");
+  const [userName, setUserName] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    if (storedName) {
+      setUserName(storedName);
+    }
+  }, []);
+  
+
 
   useEffect(() => {
     switch (location.pathname) {
@@ -54,12 +65,28 @@ const Navbar = () => {
     }
   };
 
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleLogout = () => {
+    fetch("http://localhost:8000/api/logout/", {
+      method: "POST",
+      credentials: "include",
+    }).then(() => {
+      localStorage.removeItem("userName");
+      window.location.href = "/login";
+    });
+  };
+
+
   return (
     <div className="navbar">
       <div className="navbar-title">
         <img src={logo} alt="Logo" className="logo" />
         Thrift Trail
       </div>
+
       <div className="navbar-links">
         <div
           className={`nav-item ${activeNav === "review" ? "active" : ""}`}
@@ -93,7 +120,25 @@ const Navbar = () => {
           <span>Categories</span>
         </div>
       </div>
-      <div className="navbar-profile">L</div>
+
+      <div className="navbar-profile">
+        <div className="user-icon" onClick={toggleDropdown}>
+          {userName && userName !== "undefined" && userName.trim() !== ""
+            ? userName.charAt(0).toUpperCase()
+            : "?"}
+        </div>
+
+        {isDropdownOpen && (
+          <div className="dropdown-menu">
+            <div className="dropdown-content">
+              <span className="dropdown-username">{userName || "Guest"}</span>
+              <button className="logout-btn" onClick={handleLogout}>
+                Logout
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

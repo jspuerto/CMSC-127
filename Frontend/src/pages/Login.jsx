@@ -1,43 +1,50 @@
-import React, { useState } from 'react';
-import './login.css';
-import logoImage from '../assets/thrifttrail.png';
-import { FaRegEyeSlash } from 'react-icons/fa';
-import { IoEyeSharp } from 'react-icons/io5';
+import React, { useState } from "react";
+import "./login.css";
+import logoImage from "../assets/thrifttrail.png";
+import { FaRegEyeSlash } from "react-icons/fa";
+import { IoEyeSharp } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
-    fetch('http://localhost:8000/api/login/', {
-      method: 'POST',
+    fetch("http://localhost:8000/api/login/", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
+      credentials: "include",
       body: JSON.stringify({ email, password }),
     })
       .then((res) => {
         if (!res.ok) {
-          return res.json().then(data => {
-            throw new Error(data.error || 'Login failed');
+          return res.json().then((data) => {
+            throw new Error(data.error || "Login failed");
           });
         }
         return res.json();
       })
       .then((data) => {
-        console.log('Login successful:', data);
-        // Redirect to home page or dashboard after successful login
-        window.location.href = '/';
+        console.log("Login successful:", data);
+
+        // Optionally store username/email if returned
+        if (data.username) {
+          localStorage.setItem("userName", data.username);
+        }
+
+        navigate("/summary"); // Redirect using React Router
       })
       .catch((err) => {
-        console.error('Login error:', err);
-        setError(err.message || 'Invalid credentials. Please try again.');
+        console.error("Login error:", err);
+        setError(err.message || "Invalid credentials. Please try again.");
       });
   };
 
@@ -64,7 +71,7 @@ const Login = () => {
           />
           <div className="password-input-container">
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="Password"
               className="password-input"
               value={password}

@@ -58,14 +58,67 @@
 }
 
 .navbar-profile {
-  background-color: #f8dbe2;
-  color: #b72e4b;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+  position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-weight: bold;
   cursor: pointer;
+}
+
+.user-icon {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #fdfdfd;
+  color: rgb(116, 97, 97);
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 50px;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 6px 10px;
+  z-index: 100;
+  min-width: 120px;
+}
+
+.dropdown-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap:0;
+}
+
+.dropdown-username {
+  font-weight: 600;
+  font-size: 16px;
+  color: #333;
+  padding: 5px;
+  margin: 0 0 4px 0; 
+  line-height: 1.2;
+  
+}
+
+.logout-btn {
+  font-size: 16px;
+  background-color: #5E5E5E;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%; /* Make button stretch to container */
+  text-align: center;
+  margin:0;
+}
+
+.logout-btn:hover {
+  background-color: #c1b1af;
 }
