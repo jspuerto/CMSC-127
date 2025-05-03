@@ -12,6 +12,7 @@ function BudgetTab() {
   const [newImage, setNewImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categoryToUpdate, setCategoryToUpdate] = useState(null); // Add state to store the category to be updated
 
   useEffect(() => {
     fetchBudgetCategories();
@@ -22,8 +23,10 @@ function BudgetTab() {
       setLoading(true);
       const response = await budgetApi.getCategories();
       setBudgetLimits(response.data);
-      // Calculate total monthly budget
-      const total = response.data.reduce((sum, item) => sum + parseFloat(item.limit), 0);
+      const total = response.data.reduce(
+        (sum, item) => sum + parseFloat(item.limit),
+        0
+      );
       setMonthlyBudget(total);
     } catch (err) {
       setError("Failed to fetch budget categories");
@@ -43,27 +46,55 @@ function BudgetTab() {
         const formData = {
           category: newCategory,
           limit: parseFloat(newLimit),
-          image: newImage
+          image: newImage,
         };
 
-        await budgetApi.createCategory(formData);
-        await fetchBudgetCategories(); // Refresh the list
+        if (categoryToUpdate) {
+          // If updating, just update the existing category
+          await budgetApi.updateCategory(categoryToUpdate.id, formData);
+          setCategoryToUpdate(null); // Clear the category to update
+        } else {
+          // If adding a new category, create a new one
+          await budgetApi.createCategory(formData);
+        }
 
-        // Reset form fields
+        // Refresh categories
+        await fetchBudgetCategories();
+
+        // Reset the form
         setNewCategory("");
         setNewLimit("");
         setNewImage(null);
         setShowForm(false);
       } catch (err) {
-        setError("Failed to create new category");
+        setError("Failed to save category");
         console.error(err);
       }
     }
   };
 
+
+
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       setNewImage(e.target.files[0]);
+    }
+  };
+
+  const handleUpdate = (item) => {
+    setCategoryToUpdate(item); // Store the category to update
+    setNewCategory(item.category);
+    setNewLimit(item.limit);
+    setShowForm(true);
+  };
+
+  const handleDelete = async (item) => {
+    try {
+      await budgetApi.deleteCategory(item.id); // Make sure item has id
+      await fetchBudgetCategories();
+    } catch (err) {
+      setError("Failed to delete category");
+      console.error(err);
     }
   };
 
@@ -89,8 +120,6 @@ function BudgetTab() {
     <div className="budget-tab">
       <Navbar />
       <div className="budget-container">
-        <h2>Budget and Spending Tracker</h2>
-
         <div className="monthly-budget-box">
           <p>Monthly Budget Allowance</p>
           <h1>${monthlyBudget.toLocaleString()}</h1>
@@ -109,6 +138,7 @@ function BudgetTab() {
               <th>#</th>
               <th>Category</th>
               <th>Monthly Limit</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -117,17 +147,38 @@ function BudgetTab() {
                 <td>{i + 1}</td>
                 <td>{item.category}</td>
                 <td>${parseFloat(item.limit).toLocaleString()}</td>
+                <td>
+                  <button
+                    className="action-btn update"
+                    onClick={() => handleUpdate(item)}
+                  >
+                    Update
+                  </button>
+                  <button
+                    className="action-btn delete"
+                    onClick={() => handleDelete(item)}
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
+
         {showForm && (
           <div className="side-panel">
             <div className="form-header">
               <h2>Add Category</h2>
-              <button className="close-btn" onClick={() => setShowForm(false)}>&times;</button>
+              <button className="close-btn" onClick={() => setShowForm(false)}>
+                &times;
+              </button>
             </div>
-            <form onSubmit={handleFormSubmit} encType="multipart/form-data" className="form-body">
+            <form
+              onSubmit={handleFormSubmit}
+              encType="multipart/form-data"
+              className="form-body"
+            >
               <label>Category</label>
               <input
                 type="text"
@@ -136,7 +187,7 @@ function BudgetTab() {
                 placeholder="Category name"
                 required
               />
-              
+
               <label>Monthly Limit</label>
               <div className="input-group">
                 <span className="currency-prefix">$</span>
@@ -159,7 +210,9 @@ function BudgetTab() {
               />
 
               <div className="form-actions">
-                <button type="submit" className="submit-btn">Submit</button>
+                <button type="submit" className="submit-btn">
+                  Submit
+                </button>
               </div>
             </form>
           </div>
