@@ -48,20 +48,24 @@ const Signup = () => {
       </div>
 
       <div className="right-panel">
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleSubmit} autoComplete="off">
           <h1>Signup</h1>
 
           <input
             type="text"
+            name="register_username"
             placeholder="Username"
             aria-label="Username"
+            autoComplete="off"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
           />
 
           <input
+            id="email"
             type="email"
+            name="register_email"
             placeholder="Email"
             aria-label="Email"
             value={email}

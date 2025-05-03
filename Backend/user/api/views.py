@@ -36,9 +36,12 @@ class LoginView(APIView):
         if user:
             return Response({
                 "message": "Login successful",
-                "username": user.username  # or user.name, or user.first_name
+                "username": user.username
             }, status=status.HTTP_200_OK)
-        
+        return Response({
+            "error": "Invalid credentials"
+        }, status=status.HTTP_401_UNAUTHORIZED)
+
 @api_view(['GET'])
 def current_user(request):
     if request.user.is_authenticated:

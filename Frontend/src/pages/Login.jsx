@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
 import logoImage from "../assets/thrifttrail.png";
 import { FaRegEyeSlash } from "react-icons/fa";
@@ -10,7 +10,17 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
+
+  // Check for remembered email on component mount
+  useEffect(() => {
+    const rememberedEmail = localStorage.getItem('rememberedEmail');
+    if (rememberedEmail) {
+      setEmail(rememberedEmail);
+      setRememberMe(true);
+    }
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -35,12 +45,19 @@ const Login = () => {
       .then((data) => {
         console.log("Login successful:", data);
 
-        // Optionally store username/email if returned
-        if (data.username) {
-          localStorage.setItem("userName", data.username);
+        // Handle remember me functionality
+        if (rememberMe) {
+          localStorage.setItem("rememberedEmail", email);
+        } else {
+          localStorage.removeItem("rememberedEmail");
         }
 
-        navigate("/summary"); // Redirect using React Router
+        // Store username/email if returned
+        if (data.username) {
+          sessionStorage.setItem("userName", data.username);
+        }
+
+        navigate("/summary");
       })
       .catch((err) => {
         console.error("Login error:", err);
@@ -89,7 +106,11 @@ const Login = () => {
           </div>
           <div className="options">
             <label>
-              <input type="checkbox" /> Remember me
+              <input 
+                type="checkbox" 
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+              /> Remember me
             </label>
             <a href="#">Forgot Password?</a>
           </div>

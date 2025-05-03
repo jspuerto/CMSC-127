@@ -17,7 +17,7 @@ const Navbar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   useEffect(() => {
-    const storedName = localStorage.getItem("userName");
+    const storedName = sessionStorage.getItem("userName");
     if (storedName) {
       setUserName(storedName);
     }
@@ -70,13 +70,8 @@ const Navbar = () => {
   };
 
   const handleLogout = () => {
-    fetch("http://localhost:8000/api/logout/", {
-      method: "POST",
-      credentials: "include",
-    }).then(() => {
-      localStorage.removeItem("userName");
-      window.location.href = "/login";
-    });
+    sessionStorage.removeItem('userName');
+    navigate('/login');
   };
 
 
