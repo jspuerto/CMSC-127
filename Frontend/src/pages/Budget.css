@@ -35,48 +35,65 @@ h2 {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 0rem;
-  width: 100%;
+  padding: 0 1rem;
+  width: 90%;
   font-size: 1.2rem
 }
 
-.add-entry-btn {
+.add-category-btn {
   background-color: #808080;
   color: white;
   border: none;
   padding: 0.3rem 0.8rem; 
   margin: 0;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  font-size: 1.2rem; 
+  font-size: 1rem; 
   width: auto; 
+  height: 2.5rem;
 }
-.add-entry-btn:hover {
+.add-category-btn:hover {
   background-color: #555;
 }
 
 .budget-table {
-  width: 100%;
+  width: 90%;
   border-collapse: collapse;
   margin-top: 1.5rem;
   background: white;
   border-radius: 8px;
   overflow: hidden;
-  table-layout: auto;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  table-layout: fixed; 
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ddd;
 }
 
 .budget-table th,
 .budget-table td {
-  border: 1px solid #ccc;
-  padding: 0.5rem 0.8rem;
+  padding: 12px 16px;
   text-align: left;
+  border: 1px solid #ddd;
+  word-wrap: break-word;
+}
+
+.budget-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.budget-table tr:hover {
+  background-color: #f9f9f9;
+}
+
+.budget-table td {
+  vertical-align: middle; 
 }
 
 .budget-table th:last-child,
 .budget-table td:last-child {
-  width: auto; /* Let the actions column width adjust based on content */
-  padding: 0.5rem; /* Optional: adjust padding for better alignment */
+  width: auto;
+  padding: 0.5rem; 
   text-align: center;
 }
 
@@ -197,23 +214,39 @@ h2 {
 }
 
 .action-btn {
-  padding: 5px 8px; /* Reduced padding for smaller buttons */
+  padding: 8px 12px;
+  font-size: 0.9rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 0.9rem; /* Smaller font for more compact buttons */
+  transition: background-color 0.3s ease;
+  margin: 0 4px;
 }
 
 .action-btn.update {
   background-color: #555;
   color: white;
-  width: auto; /* Let button width adjust based on content */
+  width: 6rem; 
+  height: 2.5rem;
+  margin: 0;
+  margin-right: 1rem;
+}
+
+.action-btn.update:hover {
+  background-color: #333;
 }
 
 .action-btn.delete {
   background-color: #555;
   color: white;
-  width: auto; /* Let button width adjust based on content */
+  width: 6rem;
+  height: 2.5rem;
+  margin: 0;
+  margin-left: 1rem; 
+}
+
+.action-btn.delete:hover {
+  background-color: #333;
 }
 
 
@@ -231,13 +264,14 @@ h2 {
 @media (max-width: 1024px) {
   .side-panel {
     right: 10%;
-    width: 80%; 
+    width: 80%;
     padding: 1.5rem;
   }
 
   .budget-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 1rem;
   }
 
   .monthly-budget-box {
@@ -246,13 +280,23 @@ h2 {
 
   .budget-table th,
   .budget-table td {
-    font-size: 0.95rem; 
+    font-size: 0.95rem;
+  }
+
+  .add-category-btn {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .action-btn {
+    padding: 6px 10px; 
+    font-size: 0.85rem; 
   }
 }
 
 @media (max-width: 768px) {
   .side-panel {
-    right: 0; 
+    right: 0;
     width: 100%;
     padding: 1rem;
   }
@@ -260,61 +304,66 @@ h2 {
   .budget-header {
     flex-direction: column;
     align-items: flex-start;
-  }
-
-  .monthly-budget-box {
-    width: 100%; 
-  }
-
-  .add-category-btn,
-  .budget-table th,
-  .budget-table td {
-    font-size: 0.9rem; 
-  }
-}
-
-@media (max-width: 480px) {
-  .side-panel {
-    padding: 0.5rem; 
-  }
-
-  .budget-header h3 {
-    font-size: 1.2rem; 
-  }
-
-  .add-category-btn {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
-  }
-
-  .budget-table th,
-  .budget-table td {
-    font-size: 0.85rem; 
-  }
-
-  .monthly-budget-box h1 {
-    font-size: 1.5rem; 
-  }
-}
-
-@media (max-width: 768px) {
-  .budget-header {
-    flex-direction: column;
-    align-items: flex-start;
+    gap: 1rem;
   }
 
   .monthly-budget-box {
     width: 100%;
   }
 
-  .add-category-btn,
-  .budget-table th,
-  .budget-table td {
-    font-size: 0.95rem;
+  .budget-table {
+    width: 100%;
+    font-size: 0.9rem;
   }
 
+  .budget-table th,
+  .budget-table td {
+    font-size: 0.85rem;
+    padding: 8px;
+  }
+
+  .add-category-btn {
+    font-size: 0.85rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .action-btn {
+    padding: 5px 8px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
   .side-panel {
-    max-width: 100%;
-    padding: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  .budget-header h3 {
+    font-size: 1.2rem;
+  }
+
+  .add-category-btn {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.5rem;
+  }
+
+  .budget-table th,
+  .budget-table td {
+    font-size: 0.8rem;
+    padding: 6px;
+  }
+
+  .monthly-budget-box h1 {
+    font-size: 1.5rem;
+  }
+
+  .action-btn {
+    padding: 4px 6px; 
+    font-size: 0.75rem;
+  }
+
+  .action-group {
+    flex-direction: column; 
+    gap: 4px; 
   }
 }

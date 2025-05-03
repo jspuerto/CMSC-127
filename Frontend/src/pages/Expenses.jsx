@@ -5,7 +5,10 @@ import { entriesApi, budgetApi } from "../utils/api";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
+  const [filteredExpenses, setFilteredExpenses] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterOption, setFilterOption] = useState(""); 
   const [showForm, setShowForm] = useState(false);
   const [newExpense, setNewExpense] = useState({
     title: "",
@@ -23,12 +26,30 @@ function App() {
     fetchCategories();
   }, []);
 
+  useEffect(() => { 
+    const filtered = expenses.filter((expense) => {
+      const matchesSearch = Object.values(expense).some((value) =>
+        value.toString().toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      const matchesFilter =
+        !filterOption ||
+        (filterOption === "amount" && expense.amount) ||
+        (filterOption === "date" && expense.date) ||
+        (filterOption === "category" && expense.category);
+
+      return matchesSearch && matchesFilter;
+    });
+
+    setFilteredExpenses(filtered);
+  }, [searchQuery, filterOption, expenses]);
+
   const fetchCategories = async () => {
     try {
       const response = await budgetApi.getCategories();
       setCategories(response.data);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
 
@@ -37,9 +58,10 @@ function App() {
       setLoading(true);
       const response = await entriesApi.getEntries();
       setExpenses(response.data);
+      setFilteredExpenses(response.data);
     } catch (error) {
       setError("Failed to fetch entries");
-      console.error('Error fetching entries:', error);
+      console.error("Error fetching entries:", error);
     } finally {
       setLoading(false);
     }
@@ -51,7 +73,7 @@ function App() {
     e.preventDefault();
     try {
       await entriesApi.createEntry(newExpense);
-      await fetchEntries(); // Refresh the list
+      await fetchEntries();
       setNewExpense({
         title: "",
         amount: "",
@@ -63,17 +85,17 @@ function App() {
       setShowForm(false);
     } catch (error) {
       setError("Failed to add entry");
-      console.error('Error adding entry:', error);
+      console.error("Error adding entry:", error);
     }
   };
 
   const handleDelete = async (id) => {
     try {
       await entriesApi.deleteEntry(id);
-      setExpenses(expenses.filter(expense => expense.id !== id));
+      setExpenses(expenses.filter((expense) => expense.id !== id));
     } catch (error) {
       setError("Failed to delete entry");
-      console.error('Error deleting entry:', error);
+      console.error("Error deleting entry:", error);
     }
   };
 
@@ -104,15 +126,22 @@ function App() {
           type="text"
           className="search-input"
           placeholder="Search..."
-          style={{ marginLeft: "0"}}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}  
         />
-        <select className="sort-select">
+        <select
+          className="sort-select"
+          value={filterOption}
+          onChange={(e) => setFilterOption(e.target.value)} 
+        >
           <option value="">Filter</option>
           <option value="amount">Year</option>
           <option value="date">Month</option>
           <option value="category">Category</option>
         </select>
-        <button onClick={handleAddExpense} className="add-expense-btn">+ Add Entry</button>
+        <button onClick={handleAddExpense} className="add-expense-btn">
+          + Add Entry
+        </button>
       </div>
 
       <table>
@@ -128,7 +157,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((e) => (
+          {filteredExpenses.map((e) => (
             <tr key={e.id}>
               <td>{e.title}</td>
               <td>${parseFloat(e.amount).toLocaleString()}</td>
@@ -137,7 +166,12 @@ function App() {
               <td>{e.category}</td>
               <td>{e.description}</td>
               <td>
-                <button onClick={() => handleDelete(e.id)}>Delete</button>
+                <button
+                  onClick={() => handleDelete(e.id)}
+                  className="delete-btn"
+                >
+                  Delete
+                </button>
               </td>
             </tr>
           ))}
@@ -155,26 +189,34 @@ function App() {
               type="text"
               placeholder="Title"
               value={newExpense.title}
-              onChange={(e) => setNewExpense({...newExpense, title: e.target.value})}
+              onChange={(e) =>
+                setNewExpense({ ...newExpense, title: e.target.value })
+              }
               required
             />
             <input
               type="number"
               placeholder="Amount"
               value={newExpense.amount}
-              onChange={(e) => setNewExpense({...newExpense, amount: e.target.value})}
+              onChange={(e) =>
+                setNewExpense({ ...newExpense, amount: e.target.value })
+              }
               required
               step="0.01"
             />
             <input
               type="date"
               value={newExpense.date}
-              onChange={(e) => setNewExpense({...newExpense, date: e.target.value})}
+              onChange={(e) =>
+                setNewExpense({ ...newExpense, date: e.target.value })
+              }
               required
             />
             <select
               value={newExpense.type}
-              onChange={(e) => setNewExpense({...newExpense, type: e.target.value})}
+              onChange={(e) =>
+                setNewExpense({ ...newExpense, type: e.target.value })
+              }
               required
             >
               <option value="income">Income</option>
@@ -182,7 +224,9 @@ function App() {
             </select>
             <select
               value={newExpense.category}
-              onChange={(e) => setNewExpense({...newExpense, category: e.target.value})}
+              onChange={(e) =>
+                setNewExpense({ ...newExpense, category: e.target.value })
+              }
               required
             >
               <option value="">Select a category</option>
@@ -195,7 +239,9 @@ function App() {
             <textarea
               placeholder="Description"
               value={newExpense.description}
-              onChange={(e) => setNewExpense({...newExpense, description: e.target.value})}
+              onChange={(e) =>
+                setNewExpense({ ...newExpense, description: e.target.value })
+              }
             ></textarea>
             <button type="submit" className="submit-btn">
               Add Entry
