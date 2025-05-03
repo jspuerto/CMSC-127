@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import "./Expenses.css";
-import { fetchWithAuth } from "../utils/api";
+import { entriesApi, budgetApi } from "../utils/api";
 
 function App() {
   const [expenses, setExpenses] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [newExpense, setNewExpense] = useState({
     title: "",
@@ -14,20 +15,33 @@ function App() {
     category: "",
     description: "",
   });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchEntries();
+    fetchCategories();
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const response = await budgetApi.getCategories();
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   const fetchEntries = async () => {
     try {
-      const response = await fetchWithAuth('http://localhost:8000/api/entries/');
-      if (response) {
-        const data = await response.json();
-        setExpenses(data);
-      }
+      setLoading(true);
+      const response = await entriesApi.getEntries();
+      setExpenses(response.data);
     } catch (error) {
+      setError("Failed to fetch entries");
       console.error('Error fetching entries:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -36,42 +50,50 @@ function App() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetchWithAuth('http://localhost:8000/api/entries/', {
-        method: 'POST',
-        body: JSON.stringify(newExpense),
+      await entriesApi.createEntry(newExpense);
+      await fetchEntries(); // Refresh the list
+      setNewExpense({
+        title: "",
+        amount: "",
+        date: "",
+        type: "expense",
+        category: "",
+        description: "",
       });
-
-      if (response) {
-        const data = await response.json();
-        setExpenses([...expenses, data]);
-        setNewExpense({
-          title: "",
-          amount: "",
-          date: "",
-          type: "expense",
-          category: "",
-          description: "",
-        });
-        setShowForm(false);
-      }
+      setShowForm(false);
     } catch (error) {
+      setError("Failed to add entry");
       console.error('Error adding entry:', error);
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetchWithAuth(`http://localhost:8000/api/entries/${id}/`, {
-        method: 'DELETE',
-      });
-
-      if (response && response.status === 204) {
-        setExpenses(expenses.filter(expense => expense.id !== id));
-      }
+      await entriesApi.deleteEntry(id);
+      setExpenses(expenses.filter(expense => expense.id !== id));
     } catch (error) {
+      setError("Failed to delete entry");
       console.error('Error deleting entry:', error);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="container">
+        <Navbar />
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container">
+        <Navbar />
+        <div className="error">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
@@ -109,7 +131,7 @@ function App() {
           {expenses.map((e) => (
             <tr key={e.id}>
               <td>{e.title}</td>
-              <td>${e.amount}</td>
+              <td>${parseFloat(e.amount).toLocaleString()}</td>
               <td>{e.date}</td>
               <td>{e.type}</td>
               <td>{e.category}</td>
@@ -142,6 +164,7 @@ function App() {
               value={newExpense.amount}
               onChange={(e) => setNewExpense({...newExpense, amount: e.target.value})}
               required
+              step="0.01"
             />
             <input
               type="date"
@@ -157,13 +180,18 @@ function App() {
               <option value="income">Income</option>
               <option value="expense">Expense</option>
             </select>
-            <input
-              type="text"
-              placeholder="Category"
+            <select
               value={newExpense.category}
               onChange={(e) => setNewExpense({...newExpense, category: e.target.value})}
               required
-            />
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.category}>
+                  {category.category}
+                </option>
+              ))}
+            </select>
             <textarea
               placeholder="Description"
               value={newExpense.description}

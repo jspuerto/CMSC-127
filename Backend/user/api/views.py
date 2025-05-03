@@ -7,12 +7,14 @@ from django.contrib.auth.hashers import make_password
 from ..models import CustomUser
 from .serializers import UserSerializer
 from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
 
 class UserList(generics.ListCreateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
 
 class RegisterView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         password = request.data.get('password')
         data = request.data.copy()
@@ -26,6 +28,7 @@ class RegisterView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginView(APIView):
+    permission_classes = [AllowAny]
     def post(self, request):
         email = request.data.get('email')
         password = request.data.get('password')

@@ -14,7 +14,7 @@ import {
 } from "recharts";
 import Navbar from "../components/navbar";
 import "./Summary.css"; // Custom styles
-import { fetchWithAuth } from "../utils/api";
+import { entriesApi } from "../utils/api";
 
 function App() {
   const [month, setMonth] = useState(new Date().toISOString().slice(0, 7));
@@ -24,6 +24,8 @@ function App() {
   const [lineData, setLineData] = useState([]);
   const [pieData, setPieData] = useState([]);
   const [tableData, setTableData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchEntries();
@@ -31,14 +33,15 @@ function App() {
 
   const fetchEntries = async () => {
     try {
-      const response = await fetchWithAuth('http://localhost:8000/api/entries/');
-      if (response) {
-        const data = await response.json();
-        setEntries(data);
-        processData(data);
-      }
+      setLoading(true);
+      const response = await entriesApi.getEntries();
+      setEntries(response.data);
+      processData(response.data);
     } catch (error) {
+      setError("Failed to fetch entries");
       console.error('Error fetching entries:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -126,6 +129,24 @@ function App() {
     "#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AB47BC",
     "#26A69A", "#FFA726", "#EF5350", "#78909C", "#8D6E63"
   ];
+
+  if (loading) {
+    return (
+      <div className="app">
+        <Navbar />
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="app">
+        <Navbar />
+        <div className="error">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="app">

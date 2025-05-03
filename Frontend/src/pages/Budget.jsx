@@ -1,58 +1,89 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/navbar";
 import "./Budget.css";
-
-const initialLimits = [
-  { category: "Dining Out", limit: 300 },
-  { category: "Entertainment", limit: 100 },
-  { category: "Groceries", limit: 675 },
-  { category: "Gym", limit: 150 },
-  { category: "Insurance", limit: 100 },
-  { category: "Loan Payments", limit: 200 },
-  { category: "Miscellaneous", limit: 25 },
-  { category: "Rent", limit: 1000 },
-  { category: "Shopping", limit: 100 },
-  { category: "Transportation", limit: 100 },
-];
+import { budgetApi } from "../utils/api";
 
 function BudgetTab() {
-  const [budgetLimits, setBudgetLimits] = useState(initialLimits);
-  const [monthlyBudget] = useState(2750);
+  const [budgetLimits, setBudgetLimits] = useState([]);
+  const [monthlyBudget, setMonthlyBudget] = useState(0);
   const [showForm, setShowForm] = useState(false);
   const [newCategory, setNewCategory] = useState("");
   const [newLimit, setNewLimit] = useState("");
-  const [newDate, setNewDate] = useState("");
-  const [newType, setNewType] = useState("");
-  const [newDescription, setNewDescription] = useState("");
+  const [newImage, setNewImage] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  useEffect(() => {
+    fetchBudgetCategories();
+  }, []);
+
+  const fetchBudgetCategories = async () => {
+    try {
+      setLoading(true);
+      const response = await budgetApi.getCategories();
+      setBudgetLimits(response.data);
+      // Calculate total monthly budget
+      const total = response.data.reduce((sum, item) => sum + parseFloat(item.limit), 0);
+      setMonthlyBudget(total);
+    } catch (err) {
+      setError("Failed to fetch budget categories");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddCategory = () => setShowForm(true);
 
-  
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    if (newCategory && newLimit && newDate && newType) {
-      const newEntry = {
-        title: newCategory,
-        amount: Number(newLimit),
-        date: newDate,
-        type: newType,
-        category: newCategory,
-        description: newDescription,
-      };
+    if (newCategory && newLimit) {
+      try {
+        const formData = {
+          category: newCategory,
+          limit: parseFloat(newLimit),
+          image: newImage
+        };
 
-      setBudgetLimits([...budgetLimits, newEntry]);
+        await budgetApi.createCategory(formData);
+        await fetchBudgetCategories(); // Refresh the list
 
-      // Reset form fields
-      setNewCategory("");
-      setNewLimit("");
-      setNewDate("");
-      setNewType("");
-      setNewDescription("");
-      setShowForm(false);
+        // Reset form fields
+        setNewCategory("");
+        setNewLimit("");
+        setNewImage(null);
+        setShowForm(false);
+      } catch (err) {
+        setError("Failed to create new category");
+        console.error(err);
+      }
     }
   };
+
+  const handleImageChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setNewImage(e.target.files[0]);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="budget-tab">
+        <Navbar />
+        <div className="loading">Loading...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="budget-tab">
+        <Navbar />
+        <div className="error">{error}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="budget-tab">
@@ -85,7 +116,7 @@ function BudgetTab() {
               <tr key={i}>
                 <td>{i + 1}</td>
                 <td>{item.category}</td>
-                <td>${item.limit}</td>
+                <td>${parseFloat(item.limit).toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -115,6 +146,7 @@ function BudgetTab() {
                   onChange={(e) => setNewLimit(e.target.value)}
                   placeholder="0.00"
                   required
+                  step="0.01"
                 />
               </div>
 
@@ -123,6 +155,7 @@ function BudgetTab() {
                 type="file"
                 accept="image/*"
                 className="image-upload"
+                onChange={handleImageChange}
               />
 
               <div className="form-actions">
