@@ -67,8 +67,8 @@ function BudgetTab() {
 
         <div className="budget-header">
           <h3>Budget Limits</h3>
-          <button className="add-category-btn" onClick={handleAddCategory}>
-            + Add Entry
+          <button className="add-entry-btn" onClick={handleAddCategory}>
+            + Add Category
           </button>
         </div>
 
@@ -92,33 +92,42 @@ function BudgetTab() {
         </table>
         {showForm && (
           <div className="side-panel">
-            <button className="close-btn" onClick={() => setShowForm(false)}>
-              &times;
-            </button>
-            <h2>Add Category</h2>
-            <form onSubmit={handleFormSubmit} encType="multipart/form-data">
+            <div className="form-header">
+              <h2>Add Category</h2>
+              <button className="close-btn" onClick={() => setShowForm(false)}>&times;</button>
+            </div>
+            <form onSubmit={handleFormSubmit} encType="multipart/form-data" className="form-body">
+              <label>Category</label>
               <input
                 type="text"
-                placeholder="Category"
                 value={newCategory}
                 onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="Category name"
                 required
               />
+              
+              <label>Monthly Limit</label>
+              <div className="input-group">
+                <span className="currency-prefix">$</span>
+                <input
+                  type="number"
+                  value={newLimit}
+                  onChange={(e) => setNewLimit(e.target.value)}
+                  placeholder="0.00"
+                  required
+                />
+              </div>
+
+              <label>Category Image</label>
               <input
-                type="number"
-                placeholder="Monthly Limit"
-                value={newLimit}
-                onChange={(e) => setNewLimit(e.target.value)}
-                required
+                type="file"
+                accept="image/*"
+                className="image-upload"
               />
-              <input
-                type="date"
-                placeholder="Date"
-                value={newDate}
-                onChange={(e) => setNewDate(e.target.value)}
-                required
-              />
-              <button type="submit" className="submit-btn">Submit</button>
+
+              <div className="form-actions">
+                <button type="submit" className="submit-btn">Submit</button>
+              </div>
             </form>
           </div>
         )}

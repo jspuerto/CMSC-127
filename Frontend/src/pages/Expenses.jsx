@@ -59,7 +59,7 @@ function App() {
           <option value="date">Month</option>
           <option value="category">Category</option>
         </select>
-        <button onClick={handleAddExpense}>+ Add Expense</button>
+        <button onClick={handleAddExpense} className="add-expense-btn" >+ Add Entry</button>
       </div>
 
       <table>
@@ -88,7 +88,7 @@ function App() {
           <button className="close-btn" onClick={() => setShowForm(false)}>
             &times;
           </button>
-          <h2>Entry</h2>
+          <h2>Add Entry</h2>
           <form onSubmit={handleFormSubmit} encType="multipart/form-data">
             <input
               type="text"

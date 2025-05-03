@@ -10,6 +10,7 @@ import {
   PieChart,
   Pie,
   Cell,
+  ResponsiveContainer,
 } from "recharts";
 import Navbar from "../components/navbar";
 import "./Summary.css"; // Custom styles
@@ -77,6 +78,15 @@ const COLORS = [
 
 function App() {
   const [month, setMonth] = useState("2022-11");
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+
+  const handleMouseEnter = (index) => {
+    setHoveredIndex(index);
+  };
+  
+  const handleMouseLeave = () => {
+    setHoveredIndex(null);
+  };
 
   return (
     <div className="app">
@@ -130,23 +140,56 @@ function App() {
           <div className="chart-box">
             <h2>Spending Breakdown</h2>
             <div className="piechart-container">
-              <PieChart width={300} height={250}>
-                <Pie
-                  data={pieData}
-                  dataKey="value"
-                  nameKey="name"
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  isAnimationActive={true} // Enable animation
-                  animationDuration={1500} // Animation duration in milliseconds
-                >
-                  {pieData.map((entry, i) => (
-                    <Cell key={`cell-${i}`} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
+              <ResponsiveContainer width={300} height={400}>
+                <PieChart>
+                  <Pie
+                    data={pieData}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="50%"
+                    outerRadius={100}
+                    onMouseEnter={(data, index) => handleMouseEnter(index)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    {pieData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={hoveredIndex === null || hoveredIndex === index ? COLORS[index % COLORS.length] : "#ccc"}
+                      />
+                    ))}
+                  </Pie>
+                  <Tooltip
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length) {
+                        const { name, value } = payload[0].payload;
+                        const total = pieData.reduce((sum, item) => sum + item.value, 0);
+                        const percentage = ((value / total) * 100).toFixed(2);
+                        return (
+                          <div className="custom-tooltip" style={{ background: "white", padding: "10px", borderRadius: "5px", boxShadow: "0 2px 5px rgba(0,0,0,0.2)" }}>
+                            <div style={{ display: "flex", alignItems: "center", marginBottom: "5px" }}>
+                              <span
+                                style={{
+                                  display: "inline-block",
+                                  width: "12px",
+                                  height: "12px",
+                                  backgroundColor: COLORS[hoveredIndex % COLORS.length],
+                                  borderRadius: "50%",
+                                  marginRight: "5px",
+                                }}
+                              ></span>
+                              <span>{name}</span>
+                            </div>
+                            <div>${value.toLocaleString()}</div>
+                            <div style={{ color: "#888" }}>{percentage}%</div>
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
               <div className="piechart-legend">
                 {pieData.map((entry, i) => (
                   <div key={i} className="legend-item">
