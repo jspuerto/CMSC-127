@@ -1,6 +1,7 @@
 /* General layout */
 .category-page {
   min-height: 100vh;
+  padding-top: 4rem;
   background-color: #f9fafb;
 }
 
