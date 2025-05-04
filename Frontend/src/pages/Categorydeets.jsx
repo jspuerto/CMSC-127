@@ -109,15 +109,14 @@ const CategoryDetail = () => {
           </div>
         </div>
 
+        <div className="expenses-header">
+          <h3>Expenses</h3>
+          <input type="text" placeholder="Search" className="search-input" />
+          <button className="add-button" onClick={handleAddClick}>
+            <span className="plus-icon">＋</span> Add
+          </button>
+        </div>
         <div className="expenses-section">
-          <div className="expenses-header">
-            <h3>Expenses</h3>
-            <input type="text" placeholder="Search" className="search-input" />
-            <button className="add-button" onClick={handleAddClick}>
-              <span className="plus-icon">＋</span> Add
-            </button>
-          </div>
-
           <div className="expenses-table-wrapper">
             <table className="expenses-table">
               <thead>
