@@ -4,6 +4,7 @@
   min-height: 100vh;
   padding-top: 4rem;
   background-color: white;
+  user-select: none;
 }
 
 .categories-header h1 {
