@@ -63,9 +63,9 @@ function App() {
     const savings = totalIncome - totalExpenses;
 
     setSummaryData([
-      { label: "Monthly Expenses", value: `$${totalExpenses.toFixed(2)}` },
-      { label: "Monthly Income", value: `$${totalIncome.toFixed(2)}` },
-      { label: "Monthly Savings", value: `$${savings.toFixed(2)}` },
+      { label: "Monthly Expenses", value: `₱${totalExpenses.toFixed(2)}` },
+      { label: "Monthly Income", value: `₱${totalIncome.toFixed(2)}` },
+      { label: "Monthly Savings", value: `₱${savings.toFixed(2)}` },
       {
         label: "Savings Rate",
         value:
@@ -119,8 +119,8 @@ function App() {
     // Process table data
     const tableChartData = Object.entries(monthlyData).map(([month, data]) => ({
       month,
-      expenses: `$${data.expenses.toFixed(2)}`,
-      savings: `$${(data.income - data.expenses).toFixed(2)}`,
+      expenses: `₱${data.expenses.toFixed(2)}`,
+      savings: `₱${(data.income - data.expenses).toFixed(2)}`,
     }));
 
     setTableData(tableChartData);

@@ -182,6 +182,7 @@
 }
 
 .drawer {
+  font-family: 'Quicksand', sans-serif;
   position: fixed;
   top: 0;
   right: -100%;

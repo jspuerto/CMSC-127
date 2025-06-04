@@ -5,9 +5,9 @@
 }
 
 body {
-  background-color: #121212;
+  background-color: #00d2a3;
   color: white;
-  font-family: sans-serif;
+  font-family: 'Quicksand', sans-serif;
   margin: 0;
   padding: 20px;
   box-sizing: border-box;
@@ -30,15 +30,17 @@ h1 {
 
 .summary-container {
   display: flex;
+  font-family: 'Quicksand', sans-serif;
   flex-direction: column;
   align-items: center;
   padding: 20px;
   padding-top: 4rem;
   border-radius: 8px;
+  background-color: #F1FFF3;
 }
 
 .month-picker {
-  font-family: 'Inter', sans-serif;
+  font-family:  'Quicksand', sans-serif;
   width: 870px;         /* Set a fixed width */
   max-width: 100%;      /* Prevent overflow on small screens */
   padding: 10px;
@@ -115,8 +117,8 @@ h1 {
 
 
 .chart-box h2 {
-  font-family: "Cabin Sketch", sans-serif;
-  font-size: 3rem;
+  font-family:  'Quicksand', sans-serif;
+  font-size: 2rem;
 }
 
 @keyframes fadeInUp {
