@@ -21,8 +21,11 @@ const CategoryDetail = () => {
       try {
         const response = await entriesApi.getEntriesByCategory(category.category);
         const data = response.data;
-        const filteredData = data.filter((entry) => entry.type === "expense");
-        setEntries(filteredData);
+        const filteredData = data.filter(
+          (entry) =>
+            entry.type === "expense" && entry.category === category.category
+        );
+                setEntries(filteredData);
 
         const total = filteredData.reduce((sum, entry) => sum + Number(entry.amount), 0);
         setTotalSpent(total);
@@ -92,7 +95,7 @@ const CategoryDetail = () => {
         <div className="category-header">
           <img src={category.image} alt={category.title} className="category-image" />
           <div className="category-info">
-            <h2 className="category-title">{category.title}</h2>
+            <h2 className="category-title">{category.category}</h2>
             <p className="category-description">
               Your monthly limit for <span>{category.category}</span> is <span>₱{category.limit}</span>, and you have spent <span>₱{totalSpent}</span>.
             </p>
